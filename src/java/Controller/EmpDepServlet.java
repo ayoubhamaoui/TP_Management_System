@@ -10,6 +10,7 @@ import Dao.EmpDao;
 import Entity.Dept;
 import Entity.Emp;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -72,6 +73,12 @@ public class EmpDepServlet extends HttpServlet {
             case "DeleteEmploye":
                 deleteEmploye(request, response);
                 break;
+            case "EditEmploye":
+                editEmploye(request, response);
+                break;
+            case "saveEditEmploye":
+                saveEditEmploye(request, response);
+                break;
 
         }
 
@@ -130,6 +137,28 @@ public class EmpDepServlet extends HttpServlet {
     
     private void deleteEmploye(HttpServletRequest request, HttpServletResponse response) {
         empDao.remove(request.getParameter("id_emp"));
+    }
+    
+    private void editEmploye(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        emp = empDao.findById(request.getParameter("id_emp"));
+        request.setAttribute("emp", emp);
+        request.getRequestDispatcher("editEmploye.jsp").forward(request, response);
+    }
+    
+    private void saveEditEmploye(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String empno = request.getParameter("empno");
+        String idDept = request.getParameter("idDept");
+        String nom = request.getParameter("nom");
+        String salaire = request.getParameter("salaire");
+        
+        emp.setDept(this.deptDao.findById(idDept));
+        emp.setEname(nom);
+        emp.setSal(new BigDecimal(salaire));
+        empDao.Update(emp);
+        dept = deptDao.findById(idDept);
+        List<Emp> employes = empDao.findAllByDept(dept);
+        request.setAttribute("employes", employes);
+        request.getRequestDispatcher("listeEmployesByDept.jsp").forward(request, response);
     }
     
 

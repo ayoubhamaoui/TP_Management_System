@@ -41,7 +41,7 @@
                                             <td><c:out value="${emp.getSal()}"/></td>
                                             
                                             <td>
-                                                <form action="ServletController?action=EditEmploye&code=${emp.getEmpno()}" method="POST">
+                                                <form action="EmpDepServlet?action=EditEmploye&id_emp=${emp.getEmpno()}" method="POST">
                                                     <button type="submit" class="mdl-button mdl-js-button mdl-button--mini-fab mdl-button--fab mdl-button--primary"><i class="material-icons">
                                                             update
                                                         </i></button>
