@@ -142,12 +142,14 @@ public class EmpDepServlet extends HttpServlet {
     private void editEmploye(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         emp = empDao.findById(request.getParameter("id_emp"));
         request.setAttribute("emp", emp);
+        List<Dept> depL= deptDao.findAll();
+        request.setAttribute("departments", depL);
         request.getRequestDispatcher("editEmploye.jsp").forward(request, response);
     }
     
     private void saveEditEmploye(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String empno = request.getParameter("empno");
-        String idDept = request.getParameter("idDept");
+        String idDept = request.getParameter("deptno");
         String nom = request.getParameter("nom");
         String salaire = request.getParameter("salaire");
         
@@ -156,8 +158,10 @@ public class EmpDepServlet extends HttpServlet {
         emp.setSal(new BigDecimal(salaire));
         empDao.Update(emp);
         dept = deptDao.findById(idDept);
+        
         List<Emp> employes = empDao.findAllByDept(dept);
         request.setAttribute("employes", employes);
+        
         request.getRequestDispatcher("listeEmployesByDept.jsp").forward(request, response);
     }
     

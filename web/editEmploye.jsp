@@ -24,15 +24,23 @@
                                     </h2>
                                 </div>
                                 <div class="mdl-card__supporting-text">
-                                    <form name="myForm" action="EmpDepServlet?action=saveEditEmploye&idDept=${emp.getDept().getDeptno()}" method="post" >
+                                    <form name="myForm" action="EmpDepServlet?action=saveEditEmploye&id_dept=${emp.getDept().getDeptno()}" method="post" >
+                                        
+                                        
+                                            
+                                         
                                         
                                         <div class="mdl-textfield mdl-js-textfield">
-                                            <input type="text" class="mdl-textfield__input" id="depid" placeholder="ID departement" value="${emp.getDept().getDeptno()}" disabled >
-                                            <label class="mdl-textfield__label" for="depid">ID Departement</label>
+                                            <select name="deptno" >
+                                                <option selected value="${emp.getDept().getDeptno()}"> ${emp.getDept().getDname()} </option>
+                                                <c:forEach items="${departments }" var="depts">
+                                                    <option value="${depts.getDeptno()}">${depts.getDname()}</option>
+                                                </c:forEach>
+                                            </select>
                                         </div>
                                             
                                         <div class="mdl-textfield mdl-js-textfield">
-                                            <input type="text" class="mdl-textfield__input" id="empno" placeholder="ID employee" name="empno" value="${emp.getEmpno()}" disabled>
+                                            <input type="text" class="mdl-textfield__input" id="empno" placeholder="ID employee" name="empno" value="${emp.getEmpno()}">
                                             <label class="mdl-textfield__label" for="empno">ID Employee</label>
                                         </div>
                                             
