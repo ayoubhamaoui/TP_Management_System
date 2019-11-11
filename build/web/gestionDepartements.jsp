@@ -65,7 +65,7 @@
                                             
                                             <td>
                                                 <c:if test ="${deptName != 'Unassigned'}">
-                                                    <form action="ServletController?action=AddEmploye&id_dept=${dept.getDeptno()}" method="POST">
+                                                    <form action="EmpDepServlet?action=AddEmploye&id_dept=${dept.getDeptno()}" method="POST">
                                                         <button type="submit" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab">
                                                             <i class="material-icons">
                                                                 add

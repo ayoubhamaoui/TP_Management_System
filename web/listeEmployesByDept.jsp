@@ -22,7 +22,13 @@
                 <div class="page-content">
                     <div class="mdl-grid center-items">
                         <div class="mdl-cell mdl-cell--8-col">
-                            <h1>Liste des Employes</h1>
+                            <div class="mdl-card mdl-shadow--6dp" style="width: 600px;">
+                                <div class="mdl-card__title mdl-color--primary mdl-color-text--white">
+                                    <h2 class="mdl-card__title-text">
+                                        Employees List of departement:  ${employes[0].getDept().getDname()}
+                                    </h2>
+                                </div>
+                                <div class="mdl-card__supporting-text">
                            <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
                                 <thead>
                                     <tr>
@@ -59,6 +65,9 @@
                                     </c:forEach>
                                 </tbody>
                            </table>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>

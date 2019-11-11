@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -28,6 +29,7 @@ public class EmpDepServlet extends HttpServlet {
     private EmpDao empDao;
     private Dept dept;
     private Emp emp;
+    HttpSession session;
     
     @Override
     public void init() throws ServletException {
@@ -50,6 +52,11 @@ public class EmpDepServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
+        
+        session = request.getSession();
+        if(session.getAttribute("isLogged")== null){
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+        }
 
         switch (action) {
             case "AddDepartement":
@@ -78,6 +85,15 @@ public class EmpDepServlet extends HttpServlet {
                 break;
             case "saveEditEmploye":
                 saveEditEmploye(request, response);
+                break;
+            case "AddEmploye":
+                addEmploye(request, response);
+                break;
+            case "SaveEmploye":
+                SaveEmploye(request, response);
+                break;
+            case "Logout":
+                logout(request, response);
                 break;
 
         }
@@ -163,6 +179,37 @@ public class EmpDepServlet extends HttpServlet {
         request.setAttribute("employes", employes);
         
         request.getRequestDispatcher("listeEmployesByDept.jsp").forward(request, response);
+    }
+    private void addEmploye(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String idDept = request.getParameter("id_dept");
+        request.setAttribute("idDept", idDept);
+        request.getRequestDispatcher("addEmploye.jsp").forward(request, response);
+    }
+    private void SaveEmploye(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String idDept = request.getParameter("idDept");
+        String empno = request.getParameter("empno");
+        String nom = request.getParameter("nom");
+        String salaire = request.getParameter("salaire");
+
+        
+        emp.setDept(this.deptDao.findById(idDept));
+        emp.setEname(nom);
+        emp.setEmpno(empno);
+        emp.setSal(new BigDecimal(salaire));
+        
+        System.out.println("EMPLOYEE::::::::::::::::::::: "+emp.getDept().getDeptno());
+
+        empDao.Add(emp);
+        listeDepartement(request, response);
+    }
+    
+    private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        session = request.getSession();
+        session.invalidate();
+        request.getRequestDispatcher("login.jsp").forward(request, response);
+        System.out.println("########## LOGOUT ###############");
     }
     
 
